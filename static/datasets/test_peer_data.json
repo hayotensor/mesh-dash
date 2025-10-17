@@ -1,0 +1,263 @@
+[
+  {
+    "name": "peer_1",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 12.6,
+    "lon": 25.2,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_2",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": -12.6,
+    "lon": -25.2,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_3",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 163.8,
+    "lon": -34.92,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_4",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_5",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_6",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_7",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_8",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_9",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_10",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_11",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_12",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_13",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_14",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_15",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_16",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_17",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_18",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_19",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_20",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_21",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_22",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_23",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_24",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_25",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_26",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_27",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_28",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  },
+  {
+    "name": "peer_29",
+    "peer_id": "123d1",
+    "coldkey": "0x01",
+    "hotkey": "0x03",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "elevation": 10000
+  }
+]

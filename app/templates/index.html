@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>12 Nodes Canvas</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <!-- <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+  <script src="https://unpkg.com/gridjs/dist/theme/mermaid.min.css"></script> -->
+  <!-- <link href="https://unpkg.com/tabulator-tables@6.3.1/dist/css/tabulator.min.css" rel="stylesheet">
+ <script type="text/javascript" src="https://unpkg.com/tabulator-tables@6.3.1/dist/js/tabulator.min.js"></script>
+   -->
+  <style type="text/tailwindcss">
+    /* body { margin: 0; overflow: hidden; } */
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in {
+      animation: fadeIn 0.9s ease-out;
+    }
+  </style>
+</head>
+<body class="md:overflow-hidden overflow-x-hidden bg-black ">
+  <header>
+    <nav class="w-full z-20 border-b border-gray-700 h-[90px] min-h-[90px] mx-h-[90px]">
+      <div class="text-gray-400 flex flex-wrap items-center justify-between mx-auto px-6 text-2xl h-full">
+        <div class="flex flex-row gap-2">
+          <div class="pr-9 text-gray-100">
+            Subnet 1
+          </div>
+          <div class="flex flex-row gap-8">
+            <div class="flex items-center">
+              <img src="../static/images/github-mark-white.svg" class="size-6"/>
+            </div>
+            <div class="flex items-center">
+              <img src="../static/images/x.svg" class="size-6 invert"/>
+            </div>
+            <div class="flex items-center">
+              <img src="../static/images/globe.svg" class="size-6 invert"/>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center">
+            <img src="../static/images/black-svg.svg" class="size-9 invert"/>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <main>
+    
+    <div class="flex flex-col md:flex-row bg-black h-[calc(100vh-90px)]">
+      <div class="w-full md:w-1/2 p-4 md:order-1 md:p b-0 order-2">
+        <div class="flex flex-col gap-4">
+          <div class="text-xl text-gray-100">
+            <div class="flex items-center h-9">
+              Validators
+            </div>
+          </div>
+          <!-- 90=nav,48=title,gap=16,padding=16,y-scroll=8 -->
+          <div class="max-h-[calc(100vh-90px-36px-16px-16px-8px)] overflow-y-auto">
+            <table class="min-w-full table-auto b order-collapse text-sm">
+              <thead class="bg-neutral-900 sticky top-0">
+                <tr class="hover:bg-neutral-900 text-left text-gray-400 font-semibold">
+                  <td class="px-4 py-2"></td>
+                  <td class="px-4 py-2">Name</td>
+                  <td class="px-4 py-2">X</td>
+                  <td class="px-4 py-2">Coldkey</td>
+                  <td class="px-4 py-2">Hotkey</td>
+                  <td class="px-4 py-2">Peer ID</td>
+                  <td class="px-4 py-2">Reputation</td>
+                  <td class="px-4 py-2">Avg. Attestation</td>
+                </tr>
+              </thead>
+                <tbody id="node-infos" class="bg-black divide-y divide-gray-800">
+                </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col w-full md:w-1/2 md:max-w-1/2 md:min-w-1/2 md:order-2 order-1">
+        <div id="globe-view" class="h-[360px] md:h-1/2 md:min-h-1/2 md:max-h-1/2">
+          <div id="globeViz"></div>
+        </div>
+        <div class="md:h-1/2 md:max-h-1/2 md:min-h-1/2 p-4 md:pt-0">
+          <div class="flex flex-col gap-4">
+            <div class="text-xl text-gray-100">
+              <div class="flex items-center h-9">
+                Heartbeat
+              </div>
+            </div>
+            <div class="max-h-[calc(50vh-90px-36px-16px-16px-8px)] md:h-[calc(50vh-90px-36px-16px-16px-8px)] overflow-y-auto">
+              <table class="min-w-full table-auto b order-collapse text-sm">
+                <thead class="bg-neutral-900 sticky top-0 text-left text-gray-400 font-semibold">
+                  <tr class="hover:bg-neutral-900 ">
+                    <td class="px-4 py-2">Peer</td>
+                    <td class="px-4 py-2">Status</td>
+                    <td class="px-4 py-2">Expiration</td>
+                  </tr>
+                </thead>
+                <tbody id="heartbeat" class="bg-black divide-y divide-gray-800">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+  <script src="//cdn.jsdelivr.net/npm/globe.gl"></script>
+  <script src="/static/js/globe2.js"></script>
+  <script>
+    function createWebSocket(endpoint, tableId, rowBuilder, options = {}) {
+      const ws = new WebSocket(`ws://${window.location.host}/api/${endpoint}`);
+      const shouldReplace = options.replace || false;
+
+      ws.onopen = () => console.log(`✅ WebSocket connected: ${endpoint}`);
+      ws.onerror = (err) => console.error(`❌ WebSocket error on ${endpoint}:`, err);
+
+      ws.onmessage = (event) => {
+        console.log(`Data received from ${endpoint}`);
+        
+        const items = JSON.parse(event.data);
+        const tbody = document.getElementById(tableId);
+
+        if (shouldReplace) {
+          // Clear existing content
+          tbody.innerHTML = '';
+          
+          // Add all new rows
+          items.forEach((item) => {
+            const row = document.createElement("tr");
+            row.classList.add("fade-in", "hover:bg-neutral-900");
+            row.innerHTML = rowBuilder(item);
+            tbody.appendChild(row);
+          });
+        } else {
+          // Insert new rows at the top (original behavior)
+          items.forEach((item) => {
+            const row = document.createElement("tr");
+            row.classList.add("fade-in", "hover:bg-neutral-900");
+            row.innerHTML = rowBuilder(item);
+
+            if (tbody.firstChild) {
+              tbody.insertBefore(row, tbody.firstChild);
+            } else {
+              tbody.appendChild(row);
+            }
+          });
+        }
+      };
+
+      return ws;
+    }
+
+    function createGlobeWebSocket(endpoint) {
+      const ws = new WebSocket(`ws://${window.location.host}/api/${endpoint}`);
+
+      ws.onopen = () => console.log(`✅ Globe WebSocket connected: ${endpoint}`);
+      ws.onerror = (err) => console.error(`❌ Globe WebSocket error on ${endpoint}:`, err);
+
+      ws.onmessage = (event) => {
+        console.log(`Globe data received from ${endpoint}`);
+        const data = JSON.parse(event.data);
+        
+        console.log("Parsed globe data:", data);
+        
+        // Add elevation to each peer (required by globe visualization)
+        const globeData = data.map(peer => ({
+          ...peer,
+          elevation: 10000
+        }));
+        
+        // Store globally for globe.js
+        window.gElavationData = globeData;
+        
+        // Update globe if it's already initialized
+        if (window.updateGlobe && typeof window.updateGlobe === 'function') {
+          window.updateGlobe(globeData);
+        }
+      };
+
+      ws.onclose = () => console.log(`Globe WebSocket closed: ${endpoint}`);
+
+      return ws;
+    }
+
+    const subnetId = 1;
+
+    // Heartbeat uses append behavior (default)
+    const heartbeatWs = createWebSocket(
+      `heartbeat_v2/${subnetId}`,
+      "heartbeat",
+      (item) => `
+        <td class="px-4 py-2 text-gray-400">${item.peer_id}</td>
+        <td class="px-4 py-2 ${item.state === "ONLINE" ? "text-green-400" : "text-red-400"}">
+          ${item.state}
+        </td>
+        <td class="px-4 py-2 text-gray-500">${item.expiration_time}</td>
+      `
+    );
+
+    // Node infos uses replace behavior
+
+    const nodeInfosWs = createWebSocket(
+      `subnet_node_infos/${subnetId}`,
+      "node-infos",
+      (item) => `
+        <td class="px-4 py-2 text-gray-400"></td>
+        <td class="px-4 py-2 text-gray-400">${item.name}</td>
+        <td class="px-4 py-2 text-gray-500">${item.x}</td>
+        <td class="px-4 py-2 text-gray-500">${item.coldkey}</td>
+        <td class="px-4 py-2 text-gray-500">${item.hotkey}</td>
+        <td class="px-4 py-2 text-gray-500">${item.peer_id}</td>
+        <td class="px-4 py-2 text-gray-500">${item.rep_score}</td>
+        <td class="px-4 py-2 text-gray-500">${item.average_attestation}</td>
+      `,
+      { replace: true }
+    );
+
+    // Globe WebSocket - store reference globally so globe.js can access it
+    const globeWs = createGlobeWebSocket(`get_peers_info/${subnetId}`);
+
+    window.addEventListener("beforeunload", () => {
+      heartbeatWs.close();
+      nodeInfosWs.close();
+      globeWs.close();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<head>
+  <style> body { margin: 0; } </style>
+
+  <script src="//cdn.jsdelivr.net/npm/globe.gl"></script>
+  <!--<script src="../../dist/globe.gl.js"></script>-->
+</head>
+
+<body>
+  <div id="globeViz"></div>
+
+  <script type="module">
+    const markerSvg = `<svg viewBox="-4 0 36 36">
+      <path fill="currentColor" d="M14,0 C21.732,0 28,5.641 28,12.6 C28,23.963 14,36 14,36 C14,36 0,24.064 0,12.6 C0,5.641 6.268,0 14,0 Z"></path>
+      <circle fill="black" cx="14" cy="14" r="7"></circle>
+    </svg>`;
+
+    // const Arc = 30;
+    // const gData = [...Array(Arc).keys()].map(() => ({
+    //   lat: (Math.random() - 0.5) * 180,
+    //   lng: (Math.random() - 0.5) * 360,
+    //   size: 7 + Math.random() * 30,
+    //   color: 'white'
+    // }));
+
+    console.log(Math.random())
+
+    const gData = [
+      {
+        "name": "Acamarachi",
+        "lat": 0.07 * 180,
+        "lng": 0.07 * 360,
+        "size": 24,
+        "color": 'white',
+        "elevation": 1000,
+      },
+      {
+        "name": "Acamarachi",
+        "lat": -0.01 * 180,
+        "lng": -0.01 * 360,
+        "size": 24,
+        "color": 'red',
+        "elevation": 1000,
+      },
+      {
+        "name": "Acamarachi",
+        "lat": 0.91 * 180,
+        "lng": -0.097 * 360,
+        "size": 24,
+        "color": 'blue',
+        "elevation": 1000,
+      },
+      {
+        "name": "LA",
+        "lat": 34.0549,
+        "lng": -118.2426,
+        "size": 24,
+        "color": 'red',
+        "elevation": 1000,
+      },
+    ]
+
+    const gElavationData = [
+      {
+        "name": "peer_1",
+        "lat": 0.07 * 180,
+        "lon": 0.07 * 360,
+        "yolo": 1,
+        "elevation": 10000
+      },
+      {
+        "name": "peer_2",
+        "lat": -0.01 * 180,
+        "lon": -0.01 * 360,
+        "yolo": 1,
+        "elevation": 10000
+      },
+      {
+        "name": "peer_3",
+        "lat": 0.91 * 180,
+        "lon": -0.097 * 360,
+        "yolo": 1,
+        "elevation": 10000
+      },
+      {
+        "name": "peer_4",
+        "lat": 34.0549,
+        "lon": -118.2426,
+        "yolo": 1,
+        "elevation": 10000
+      },
+    ]
+
+    // Gen random data
+    // const N = 20;
+    // const arcsData = [...Array(N).keys()].map(() => ({
+    //   startLat: (Math.random() - 0.5) * 180,
+    //   startLng: (Math.random() - 0.5) * 360,
+    //   endLat: (Math.random() - 0.5) * 180,
+    //   endLng: (Math.random() - 0.5) * 360,
+    //   color: [['red', 'white', 'blue', 'green'][Math.round(Math.random() * 3)], ['red', 'white', 'blue', 'green'][Math.round(Math.random() * 3)]]
+    // }));
+
+    const arcsData = [
+      {
+        name: "yolo",
+        startLat: 0.07 * 180,
+        startLng: 0.07 * 360,
+        endLat: -0.01 * 180,
+        endLng: -0.01 * 360,
+        color: 'white'
+      },
+      {
+        name: "yolo",
+        startLat: -0.01 * 180,
+        startLng: -0.01 * 360,
+        endLat: 0.07 * 180,
+        endLng: 0.07 * 360,
+        color: 'white'
+      },
+      {
+        name: "yolo",
+        startLat: -0.01 * 180,
+        startLng: -0.01 * 360,
+        endLat: 0.91 * 180,
+        endLng: -0.097 * 360,
+        color: 'white'
+      },
+      {
+        name: "yolo",
+        startLat: 0.91 * 180,
+        startLng: -0.097 * 360,
+        endLat: 0.07 * 180,
+        endLng: 0.07 * 360,
+        color: 'white'
+      },
+      {
+        name: "yolo",
+        startLat: 34.0549,
+        startLng: -118.2426,
+        endLat: 0.07 * 180,
+        endLng: 0.07 * 360,
+        color: 'white'
+      },
+    ]
+
+    const OPACITY = 0.6;
+
+    import { scaleOrdinal } from 'https://esm.sh/d3-scale';
+    import { schemeCategory10 } from 'https://esm.sh/d3-scale-chromatic';
+    import { transparentize } from 'https://esm.sh/polished';
+
+    const catColor = scaleOrdinal(schemeCategory10.map(col => transparentize(0.2, col)));
+
+    const getAlt = d => d.elevation * 5e-5;
+
+    const getTooltip = d => `
+      <div style="text-align: center">
+        <div><b>${d.name}</b></div>
+      </div>
+    `;
+
+    // const myGlobe = new Globe(document.getElementById('globeViz'))
+    //   .globeImageUrl('//cdn.jsdelivr.net/npm/three-globe/example/img/earth-night.jpg')
+    //   .backgroundImageUrl('//cdn.jsdelivr.net/npm/three-globe/example/img/night-sky.png')
+    //   .pointLat('lat')
+    //   .pointLng('lon')
+    //   .pointAltitude(getAlt)
+    //   .pointRadius(0.12)
+    //   .pointColor(d => catColor(d.type))
+    //   .pointLabel(getTooltip)
+    //   .labelLat('lat')
+    //   .labelLng('lon')
+    //   .labelAltitude(d => getAlt(d) + 1e-6)
+    //   .labelDotRadius(0.12)
+    //   .labelDotOrientation(() => 'bottom')
+    //   .labelColor(d => catColor(d.type))
+    //   .labelText('name')
+    //   .labelSize(0.15)
+    //   .labelResolution(1)
+    //   .labelLabel(getTooltip);
+
+    // fetch('../static/datasets/world_volcanoes.json').then(res => res.json()).then(volcanoes => {
+    //   myGlobe.pointsData(volcanoes)
+    //     .labelsData(volcanoes);
+    // });
+
+    const POINT_HEIGHT = 0.1
+
+    fetch('../static/datasets/ne_110m_admin_0_countries.geojson').then(res => res.json()).then(countries =>
+    {
+      const world = new Globe(document.getElementById('globeViz'))
+        .pointOfView({ lat: 39.6, lng: -98.5, altitude: 3 }) // aim at continental US centroid
+        .hexPolygonsData(countries.features)
+        .hexPolygonResolution(3)
+        .hexPolygonMargin(0.3)
+        .hexPolygonUseDots(true)
+        .hexPolygonColor(() => `grey`)
+        .htmlElementsData(gData)
+        // .htmlElement(d => {
+        //   const el = document.createElement('div');
+        //   el.innerHTML = markerSvg;
+        //   el.style.color = d.color;
+        //   el.style.width = `${d.size}px`;
+        //   el.style.transition = 'opacity 250ms';
+
+        //   el.style['pointer-events'] = 'auto';
+        //   el.style.cursor = 'pointer';
+        //   el.onclick = () => console.info(d);
+        //   return el;
+        // })
+
+        .arcDashLength(0.25)
+        .arcDashGap(1)
+        .arcDashInitialGap(() => Math.random())
+        .arcDashAnimateTime(4000)
+        .arcColor(d => [`rgba(0, 255, 0, ${OPACITY})`, `rgba(255, 0, 0, ${OPACITY})`])
+        .arcsTransitionDuration(0)
+
+        // .pointColor(() => 'orange')
+        // .pointAltitude(0)
+        // .pointRadius(0.02)
+        .pointsMerge(true)
+        .arcsData(arcsData)
+
+        .pointLat('lat')
+        .pointLng('lon')
+        .pointAltitude(POINT_HEIGHT)
+        .pointRadius(0.1) // thickness of pointer
+        .pointColor(d => 'white') // color of pointer
+        .pointLabel(getTooltip)
+        .labelLat('lat')
+        .labelLng('lon')
+        .labelAltitude(POINT_HEIGHT)
+        .labelDotRadius(0.12)
+        .labelDotOrientation(() => 'bottom')
+        .labelColor(d => 'gray') // color of label ontop of pointer
+        .labelText('name')
+        .labelSize(1.0)
+        .labelResolution(1)
+        .labelLabel(getTooltip)
+        .pointsData(gElavationData)
+        .labelsData(gElavationData)
+    });
+
+    // new Globe(document.getElementById('globeViz'))
+    //   .globeImageUrl('//cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg')
+    //   .htmlElementsData(gData)
+    //   .htmlElement(d => {
+    //     const el = document.createElement('div');
+    //     el.innerHTML = markerSvg;
+    //     el.style.color = d.color;
+    //     el.style.width = `${d.size}px`;
+    //     el.style.transition = 'opacity 250ms';
+
+    //     el.style['pointer-events'] = 'auto';
+    //     el.style.cursor = 'pointer';
+    //     el.onclick = () => console.info(d);
+    //     return el;
+    //   })
+      
+    //   .hexPolygonsData(countries.features)
+    //   .hexPolygonResolution(3)
+    //   .hexPolygonMargin(0.3)
+    //   .hexPolygonUseDots(true)
+    //   .hexPolygonColor(() => `#${Math.round(Math.random() * Math.pow(2, 24)).toString(16).padStart(6, '0')}`)
+
+    //   .arcsData(arcsData)
+    //   .arcColor(d => [`rgba(0, 255, 0, ${OPACITY})`, `rgba(255, 0, 0, ${OPACITY})`])
+    //   .arcDashLength(1)
+    //   .arcDashGap(0.1)
+    //   .arcDashAnimateTime(1500)
+    //   .pointColor(() => 'orange')
+    //   .pointAltitude(0)
+    //   .pointRadius(0.04)
+    //   .pointsMerge(true);
+  </script>
+</body>
