@@ -13,12 +13,12 @@ See blockchain repository and start blockchain node in a separate CLI
 ./target/release/solochain-template-node --dev
 ```
 
-### Start Bootnode & Bootnode API (subnet)
-See docs on how to start your bootnode: https://docs.hypertensor.org
+### Start Bootnode & Bootnode API (using mesh-template)
+https://github.com/hayotensor/mesh-template
 ```bash
 mesh-dht-api \ 
   --host_maddrs /ip4/0.0.0.0/tcp/31330 /ip4/0.0.0.0/udp/31330/quic \
-  --announce_maddrs /ip4/127.0.0.1/tcp/31330 /ip4/127.0.0.1/udp/31330/quic \
+  --announce_maddrs /ip4/{your_id}/tcp/31330 /ip4/{your_id}/udp/31330/quic \
   --identity_path pk.id
 ```
 
